@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}SmartQuiz – Choose a Quiz{% endblock %}
+
+{% block content %}
+
+<div class="text-center mb-5">
+  <h1 class="display-5 fw-bold text-primary">
+    <i class="fa-solid fa-list-check me-2"></i>Choose a Category
+  </h1>
+  <p class="lead text-muted">
+    Hello, <strong>{{ session.get('user_name') }}</strong>!
+    Pick a category and test your knowledge.
+  </p>
+</div>
+
+{% if categories %}
+<div class="row g-4 justify-content-center">
+  {% for cat in categories %}
+  <div class="col-sm-6 col-md-4 col-lg-3">
+    <a href="{{ url_for('quiz', category=cat) }}"
+       class="card text-decoration-none border-0 shadow-sm category-card h-100 text-center">
+      <div class="card-body py-4">
+        <div class="fs-1 mb-3">
+          <i class="fa-solid fa-circle-question text-primary"></i>
+        </div>
+        <h6 class="fw-bold mb-0">{{ cat }}</h6>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-5 text-muted">
+  <i class="fa-solid fa-face-frown fs-1 d-block mb-3"></i>
+  <h5>No quiz categories available yet.</h5>
+  <p>Check back soon — the admin is working on it!</p>
+</div>
+{% endif %}
+
+{% endblock %}

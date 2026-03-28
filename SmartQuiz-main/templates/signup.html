@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}SmartQuiz – Sign Up{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-5">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-4 p-lg-5">
+        <div class="text-center mb-4">
+          <div class="display-5 text-primary mb-2">
+            <i class="fa-solid fa-user-plus"></i>
+          </div>
+          <h2 class="fw-bold">Create Account</h2>
+          <p class="text-muted">Join SmartQuiz and start testing yourself!</p>
+        </div>
+
+        <form id="signupForm" method="POST" action="{{ url_for('signup') }}" novalidate>
+          <div class="mb-3">
+            <label for="name" class="form-label fw-semibold">Full Name</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+              <input type="text" class="form-control" id="name" name="name"
+                     placeholder="Your full name" required
+                     value="{{ request.form.get('name', '') }}" />
+              <div class="invalid-feedback">Please enter your name.</div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label fw-semibold">Email Address</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+              <input type="email" class="form-control" id="email" name="email"
+                     placeholder="you@example.com" required
+                     value="{{ request.form.get('email', '') }}" />
+              <div class="invalid-feedback">Please enter a valid email.</div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label fw-semibold">Password</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+              <input type="password" class="form-control" id="password"
+                     name="password" placeholder="Min 6 characters"
+                     minlength="6" required />
+              <button class="btn btn-outline-secondary" type="button" id="togglePwd">
+                <i class="fa-solid fa-eye" id="eyeIcon"></i>
+              </button>
+              <div class="invalid-feedback">Password must be at least 6 characters.</div>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label for="confirmPassword" class="form-label fw-semibold">Confirm Password</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+              <input type="password" class="form-control" id="confirmPassword"
+                     placeholder="Repeat password" required />
+              <div class="invalid-feedback" id="confirmFeedback">
+                Passwords do not match.
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+            <i class="fa-solid fa-user-check me-2"></i>Sign Up
+          </button>
+        </form>
+
+        <hr class="my-4" />
+        <p class="text-center mb-0">
+          Already have an account?
+          <a href="{{ url_for('login') }}" class="fw-semibold">Log in</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  document.getElementById("togglePwd").addEventListener("click", function () {
+    const pwd = document.getElementById("password");
+    const eyeIcon = document.getElementById("eyeIcon");
+    if (pwd.type === "password") {
+      pwd.type = "text";
+      eyeIcon.className = "fa-solid fa-eye-slash";
+    } else {
+      pwd.type = "password";
+      eyeIcon.className = "fa-solid fa-eye";
+    }
+  });
+
+  document.getElementById("signupForm").addEventListener("submit", function (e) {
+    const form = this;
+    const pwd = document.getElementById("password").value;
+    const confirm = document.getElementById("confirmPassword").value;
+    const confirmField = document.getElementById("confirmPassword");
+
+    if (!form.checkValidity()) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    if (pwd !== confirm) {
+      e.preventDefault();
+      confirmField.classList.add("is-invalid");
+      document.getElementById("confirmFeedback").textContent = "Passwords do not match.";
+    } else {
+      confirmField.classList.remove("is-invalid");
+    }
+
+    form.classList.add("was-validated");
+  });
+</script>
+{% endblock %}

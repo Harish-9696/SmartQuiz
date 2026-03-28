@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}SmartQuiz – Add Question{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <nav aria-label="breadcrumb" class="mb-4">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Add Question</li>
+      </ol>
+    </nav>
+
+    <div class="card shadow-sm border-0">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0"><i class="fa-solid fa-circle-plus me-2"></i>Add New Question</h5>
+      </div>
+      <div class="card-body p-4">
+        <form id="addQuestionForm" method="POST" action="{{ url_for('add_question') }}" novalidate>
+
+          <div class="mb-3">
+            <label for="question" class="form-label fw-semibold">
+              Question <span class="text-danger">*</span>
+            </label>
+            <textarea class="form-control" id="question" name="question" rows="3"
+                      placeholder="Enter the question text..." required>{{ request.form.get('question', '') }}</textarea>
+            <div class="invalid-feedback">Question text is required.</div>
+          </div>
+
+          <div class="row g-3 mb-3">
+            {% for i in [('option1','A'),('option2','B'),('option3','C'),('option4','D')] %}
+            <div class="col-sm-6">
+              <label for="{{ i[0] }}" class="form-label fw-semibold">
+                Option {{ i[1] }} <span class="text-danger">*</span>
+              </label>
+              <input type="text" class="form-control" id="{{ i[0] }}"
+                     name="{{ i[0] }}" placeholder="Option {{ i[1] }}"
+                     required value="{{ request.form.get(i[0], '') }}" />
+              <div class="invalid-feedback">Option {{ i[1] }} is required.</div>
+            </div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            <label for="answer" class="form-label fw-semibold">
+              Correct Answer <span class="text-danger">*</span>
+            </label>
+            <input type="text" class="form-control" id="answer" name="answer"
+                   placeholder="Must exactly match one of the options above"
+                   required value="{{ request.form.get('answer', '') }}" />
+            <div class="form-text">
+              <i class="fa-solid fa-circle-info me-1"></i>
+              Type the correct option exactly as written above.
+            </div>
+            <div class="invalid-feedback">Correct answer is required.</div>
+          </div>
+
+          <div class="row g-3 mb-4">
+            <div class="col-sm-6">
+              <label for="category" class="form-label fw-semibold">Existing Category</label>
+              <select class="form-select" id="category" name="category">
+                <option value="">-- Select category --</option>
+                {% for cat in categories %}
+                <option value="{{ cat }}" {% if request.form.get('category') == cat %}selected{% endif %}>
+                  {{ cat }}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-sm-6">
+              <label for="new_category" class="form-label fw-semibold">Or Create New Category</label>
+              <input type="text" class="form-control" id="new_category" name="new_category"
+                     placeholder="e.g. Geography" value="{{ request.form.get('new_category', '') }}" />
+              <div class="form-text">Leave existing blank if creating new.</div>
+            </div>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary px-4">
+              <i class="fa-solid fa-floppy-disk me-2"></i>Save Question
+            </button>
+            <a href="{{ url_for('manage_questions') }}" class="btn btn-outline-secondary px-4">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  document.getElementById("addQuestionForm").addEventListener("submit", function (e) {
+    const category = document.getElementById("category").value.trim();
+    const newCategory = document.getElementById("new_category").value.trim();
+
+    if (!category && !newCategory) {
+      e.preventDefault();
+      const existing = document.getElementById("category");
+      existing.classList.add("is-invalid");
+      let feedback = existing.parentElement.querySelector(".custom-cat-feedback");
+      if (!feedback) {
+        feedback = document.createElement("div");
+        feedback.className = "invalid-feedback d-block custom-cat-feedback";
+        feedback.textContent = "Please select or create a category.";
+        existing.parentElement.appendChild(feedback);
+      }
+    }
+
+    if (!this.checkValidity()) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    this.classList.add("was-validated");
+  });
+</script>
+{% endblock %}

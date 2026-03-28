@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}SmartQuiz – Home{% endblock %}
+
+{% block content %}
+<section class="sq-hero">
+  <div class="container text-center">
+    <div class="sq-hero-badge mb-3">
+      <i class="fa-solid fa-star me-1"></i> Quiz Platform
+    </div>
+    <h1 class="sq-hero-heading">
+      Test Your Knowledge,<br />
+      <span class="sq-gradient-text">Sharpen Your Mind</span>
+    </h1>
+    <p class="sq-hero-sub">
+      Challenge yourself with questions across 8 exciting categories.<br />
+      Track your progress, beat your best score, and become a trivia master!
+    </p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <a href="/quiz" class="btn sq-btn-primary btn-lg px-4">
+        <i class="fa-solid fa-play me-2"></i>Start Quiz
+      </a>
+      <a href="/results" class="btn sq-btn-outline btn-lg px-4">
+        <i class="fa-solid fa-chart-bar me-2"></i>My Results
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="sq-stats-bar py-4">
+  <div class="container">
+    <div class="row g-3 text-center">
+      <div class="col-6 col-md-3">
+        <div class="sq-stat-item">
+          <div class="sq-stat-number">8</div>
+          <div class="sq-stat-label">Categories</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="sq-stat-item">
+          <div class="sq-stat-number">80+</div>
+          <div class="sq-stat-label">Questions</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="sq-stat-item">
+          <div class="sq-stat-number">10</div>
+          <div class="sq-stat-label">Per Quiz</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="sq-stat-item">
+          <div class="sq-stat-number">10m</div>
+          <div class="sq-stat-label">Time Limit</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sq-section py-5">
+  <div class="container">
+    <div class="sq-section-header mb-4">
+      <h2 class="sq-section-title">
+        <i class="fa-solid fa-grid-2 me-2"></i>Quiz Categories
+      </h2>
+      <p class="sq-section-sub">Choose a category and test your knowledge</p>
+    </div>
+
+    <div class="row g-4">
+      {% for cat in categories %}
+      <div class="col-6 col-md-4 col-lg-3">
+        <a href="/quiz?category={{ cat.name | urlencode }}" class="text-decoration-none">
+          <div class="sq-category-card sq-color-{{ cat.color }}">
+            <div class="sq-category-icon">
+              <i class="fa-solid {{ cat.icon }}"></i>
+            </div>
+            <h5 class="sq-category-name">{{ cat.name }}</h5>
+            <p class="sq-category-count">{{ cat.count }} questions</p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

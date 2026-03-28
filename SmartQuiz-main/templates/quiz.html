@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% block title %}SmartQuiz – Take Quiz{% endblock %}
+
+{% block extra_head %}
+<script>
+  const DEFAULT_CATEGORY = "";
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="sq-section py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+
+        <div id="setupPanel">
+          <div class="text-center mb-4">
+            <div class="sq-hero-badge mb-2">
+              <i class="fa-solid fa-pen-to-square me-1"></i>Take Quiz
+            </div>
+            <h2 class="fw-bold">Start a New Quiz</h2>
+            <p class="text-muted">Select a category and test your knowledge!</p>
+          </div>
+
+          <div class="sq-card p-4">
+            <div class="mb-4">
+              <label for="categorySelect" class="form-label fw-semibold">
+                <i class="fa-solid fa-list me-1"></i>Select Category
+              </label>
+              <select id="categorySelect" class="form-select sq-select">
+                <option value="">-- Choose a Category --</option>
+                {% for cat in categories %}
+                <option value="{{ cat }}">{{ cat }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="sq-info-list mb-4">
+              <div class="sq-info-item">
+                <i class="fa-solid fa-circle-question sq-info-icon"></i>
+                <span>Up to <strong>10 questions</strong> per quiz</span>
+              </div>
+              <div class="sq-info-item">
+                <i class="fa-solid fa-clock sq-info-icon"></i>
+                <span><strong>10-minute</strong> time limit</span>
+              </div>
+              <div class="sq-info-item">
+                <i class="fa-solid fa-floppy-disk sq-info-icon"></i>
+                <span>Results are <strong>saved automatically</strong></span>
+              </div>
+              <div class="sq-info-item">
+                <i class="fa-solid fa-shuffle sq-info-icon"></i>
+                <span>Questions are <strong>randomised</strong> each time</span>
+              </div>
+            </div>
+
+            <button id="startQuizBtn" class="btn sq-btn-primary w-100 btn-lg">
+              <i class="fa-solid fa-play me-2"></i>Start Quiz
+            </button>
+
+            <div id="setupError" class="alert alert-danger mt-3 d-none" role="alert"></div>
+          </div>
+        </div>
+
+        <div id="quizPanel" class="d-none">
+          <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+            <div>
+              <span class="sq-badge-category" id="quizCategoryLabel"></span>
+            </div>
+            <div class="sq-timer-badge" id="timerDisplay">
+              <i class="fa-solid fa-clock me-1"></i>
+              <span id="timerText">10:00</span>
+            </div>
+          </div>
+
+          <div class="progress sq-progress mb-3" role="progressbar">
+            <div class="progress-bar sq-progress-bar" id="quizProgressBar" style="width: 0%"></div>
+          </div>
+
+          <div class="d-flex justify-content-between mb-3">
+            <small class="text-muted" id="questionCounter">Question 1 of 10</small>
+            <small class="text-muted" id="scoreCounter">Score: 0</small>
+          </div>
+
+          <div class="sq-card p-4">
+            <h5 class="sq-question-text mb-4" id="questionText"></h5>
+            <div id="optionsContainer" class="d-flex flex-column gap-2"></div>
+          </div>
+
+          <div class="d-flex justify-content-between mt-3">
+            <div></div>
+            <button id="nextBtn" class="btn sq-btn-primary" disabled>
+              Next <i class="fa-solid fa-arrow-right ms-1"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="resultPanel" class="d-none">
+          <div class="text-center mb-4">
+            <div class="sq-hero-badge mb-2">
+              <i class="fa-solid fa-flag-checkered me-1"></i>Quiz Complete!
+            </div>
+            <h2 class="fw-bold">Your Result</h2>
+          </div>
+
+          <div class="sq-card p-4 text-center">
+            <div class="sq-score-circle mx-auto mb-3" id="scoreCircle">
+              <span id="scoreText">0/10</span>
+            </div>
+
+            <h4 class="mb-1" id="resultHeading">Well Done!</h4>
+            <p class="text-muted mb-3" id="resultSubtext"></p>
+
+            <div class="progress sq-progress mb-2" role="progressbar">
+              <div class="progress-bar sq-progress-bar" id="resultProgressBar" style="width: 0%"></div>
+            </div>
+            <small class="text-muted" id="resultPercentageText"></small>
+
+            <hr class="my-3" />
+
+            <div class="row g-3 mb-3">
+              <div class="col-4">
+                <div class="sq-result-stat">
+                  <div class="sq-result-stat-val" id="statCorrect">-</div>
+                  <div class="sq-result-stat-lbl">Correct</div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="sq-result-stat">
+                  <div class="sq-result-stat-val" id="statWrong">-</div>
+                  <div class="sq-result-stat-lbl">Wrong</div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="sq-result-stat">
+                  <div class="sq-result-stat-val" id="statTime">-</div>
+                  <div class="sq-result-stat-lbl">Time Taken</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex gap-2 justify-content-center flex-wrap">
+              <button id="retakeBtn" class="btn sq-btn-primary">
+                <i class="fa-solid fa-rotate-right me-1"></i>Retake
+              </button>
+              <a href="/results" class="btn sq-btn-outline">
+                <i class="fa-solid fa-chart-bar me-1"></i>View Results
+              </a>
+              <a href="/" class="btn btn-light">
+                <i class="fa-solid fa-house me-1"></i>Home
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+{% endblock %}

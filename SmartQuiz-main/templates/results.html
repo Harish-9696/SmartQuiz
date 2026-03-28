@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block title %}SmartQuiz – My Results{% endblock %}
+
+{% block content %}
+<section class="sq-section py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <div class="sq-hero-badge mb-2">
+        <i class="fa-solid fa-chart-bar me-1"></i>My Results
+      </div>
+      <h2 class="fw-bold">Performance Dashboard</h2>
+      <p class="text-muted">Track your progress across all quiz attempts</p>
+    </div>
+
+    <div class="row g-4 mb-5">
+      <div class="col-12 col-md-4">
+        <div class="sq-summary-card sq-summary-purple">
+          <div class="sq-summary-icon">
+            <i class="fa-solid fa-list-check"></i>
+          </div>
+          <div class="sq-summary-body">
+            <div class="sq-summary-number">{{ results|length }}</div>
+            <div class="sq-summary-label">Total Quizzes Taken</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="sq-summary-card sq-summary-blue">
+          <div class="sq-summary-icon">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <div class="sq-summary-body">
+            {% set avg = 0 %}
+            {% if results %}
+              {% set ns = namespace(total=0) %}
+              {% for r in results %}
+                {% set ns.total = ns.total + ((r.score / r.total) * 100 if r.total else 0) %}
+              {% endfor %}
+              {% set avg = (ns.total / results|length) | round(0) %}
+            {% endif %}
+            <div class="sq-summary-number">{{ avg }}%</div>
+            <div class="sq-summary-label">Average Score</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="sq-summary-card sq-summary-green">
+          <div class="sq-summary-icon">
+            <i class="fa-solid fa-trophy"></i>
+          </div>
+          <div class="sq-summary-body">
+            {% set best = 0 %}
+            {% for r in results %}
+              {% set pct = ((r.score / r.total) * 100) if r.total else 0 %}
+              {% if pct > best %}
+                {% set best = pct %}
+              {% endif %}
+            {% endfor %}
+            <div class="sq-summary-number">{{ best | round(0) }}%</div>
+            <div class="sq-summary-label">Best Score</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sq-card p-0 overflow-hidden">
+      <div class="sq-card-header px-4 py-3">
+        <h5 class="mb-0 fw-semibold">
+          <i class="fa-solid fa-clock-rotate-left me-2"></i>Quiz History
+        </h5>
+      </div>
+
+      {% if results %}
+      <div class="table-responsive">
+        <table class="table sq-table mb-0">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Category</th>
+              <th>Score</th>
+              <th>Percentage</th>
+              <th>Date</th>
+              <th>Time Taken</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for result in results %}
+            {% set pct = ((result.score / result.total) * 100) | int if result.total > 0 else 0 %}
+            <tr>
+              <td class="text-muted">{{ loop.index }}</td>
+              <td><span class="sq-category-pill">{{ result.category }}</span></td>
+              <td class="fw-semibold">{{ result.score }}/{{ result.total }}</td>
+              <td>
+                <span class="fw-semibold
+                  {% if pct >= 80 %}sq-text-success
+                  {% elif pct >= 50 %}sq-text-warning
+                  {% else %}sq-text-danger{% endif %}">
+                  {{ pct }}%
+                </span>
+              </td>
+              <td class="text-muted small">
+                {% if result.date %}
+                  {{ result.date.strftime('%d %b %Y, %H:%M') }}
+                {% else %}
+                  —
+                {% endif %}
+              </td>
+              <td class="text-muted small">{{ result.time_taken }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="text-center py-5 px-3">
+        <i class="fa-solid fa-ghost fa-3x mb-3" style="color: var(--sq-purple-light);"></i>
+        <h5 class="mb-2">No Results Yet</h5>
+        <p class="text-muted mb-3">Complete a quiz to see your results here.</p>
+        <a href="/quiz" class="btn sq-btn-primary">
+          <i class="fa-solid fa-play me-2"></i>Take Your First Quiz
+        </a>
+      </div>
+      {% endif %}
+    </div>
+
+    {% if results %}
+    <div class="text-center mt-4">
+      <a href="/quiz" class="btn sq-btn-primary">
+        <i class="fa-solid fa-play me-2"></i>Take Another Quiz
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

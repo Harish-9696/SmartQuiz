@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}SmartQuiz{% endblock %}</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg sq-navbar">
+    <div class="container">
+      <a class="navbar-brand sq-brand" href="{{ url_for('index') }}">
+        <i class="fa-solid fa-brain me-2"></i>SmartQuiz
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarMain">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-2">
+          <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'index' %}active{% endif %}" href="{{ url_for('index') }}">
+              <i class="fa-solid fa-house me-1"></i>Home
+            </a>
+          </li>
+
+          {% if session.get('role') == 'student' %}
+          <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'quiz_home' or request.endpoint == 'quiz' %}active{% endif %}" href="{{ url_for('quiz_home') }}">
+              <i class="fa-solid fa-pen-to-square me-1"></i>Take Quiz
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'results' %}active{% endif %}" href="{{ url_for('results') }}">
+              <i class="fa-solid fa-chart-bar me-1"></i>My Results
+            </a>
+          </li>
+          {% endif %}
+
+          {% if session.get('role') == 'admin' %}
+          <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'admin_dashboard' %}active{% endif %}" href="{{ url_for('admin_dashboard') }}">
+              <i class="fa-solid fa-gauge-high me-1"></i>Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'manage_questions' %}active{% endif %}" href="{{ url_for('manage_questions') }}">
+              <i class="fa-solid fa-list-check me-1"></i>Manage Questions
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'admin_results' %}active{% endif %}" href="{{ url_for('admin_results') }}">
+              <i class="fa-solid fa-ranking-star me-1"></i>All Results
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+
+        <div class="d-flex align-items-center gap-2">
+          {% if session.get('user_name') %}
+          <div class="sq-user-pill d-flex align-items-center gap-2">
+            <div class="sq-avatar">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <span class="fw-semibold">{{ session.get('user_name') }}</span>
+          </div>
+          <a href="{{ url_for('logout') }}" class="btn btn-outline-danger btn-sm ms-2">
+            <i class="fa-solid fa-right-from-bracket me-1"></i>Logout
+          </a>
+          {% else %}
+          <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-sm">Login</a>
+          <a href="{{ url_for('signup') }}" class="btn btn-primary btn-sm">Signup</a>
+          <a href="{{ url_for('admin_login') }}" class="btn btn-outline-dark btn-sm">Admin</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="sq-footer mt-auto py-4">
+    <div class="container text-center">
+      <p class="mb-0 text-muted small">
+        &copy; 2026 SmartQuiz &mdash; Test Your Knowledge, Sharpen Your Mind ||Btech project by Harish
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,596 @@
+/* =============================================================
+   SmartQuiz – Custom Stylesheet
+   Design: soft purple accents, rounded cards, clean modern look
+   ============================================================= */
+
+/* ------------------------------------------------------------------
+   CSS Variables
+   ------------------------------------------------------------------ */
+:root {
+  --sq-purple:        #7c3aed;
+  --sq-purple-light:  #a78bfa;
+  --sq-purple-dark:   #5b21b6;
+  --sq-purple-bg:     #f5f3ff;
+  --sq-purple-border: #ede9fe;
+
+  --sq-blue:   #3b82f6;
+  --sq-teal:   #14b8a6;
+  --sq-orange: #f97316;
+  --sq-red:    #ef4444;
+  --sq-green:  #22c55e;
+  --sq-pink:   #ec4899;
+  --sq-yellow: #eab308;
+
+  --sq-bg:       #f9fafb;
+  --sq-surface:  #ffffff;
+  --sq-border:   #e5e7eb;
+  --sq-text:     #111827;
+  --sq-muted:    #6b7280;
+  --sq-radius:   1rem;
+  --sq-radius-sm:0.5rem;
+  --sq-shadow:   0 2px 16px rgba(124, 58, 237, 0.08);
+  --sq-shadow-md:0 4px 24px rgba(124, 58, 237, 0.14);
+}
+
+/* ------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------ */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--sq-bg);
+  color: var(--sq-text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main { flex: 1; }
+
+/* ------------------------------------------------------------------
+   Navbar
+   ------------------------------------------------------------------ */
+.sq-navbar {
+  background: var(--sq-surface);
+  border-bottom: 1px solid var(--sq-border);
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+  padding: 0.75rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+}
+
+.sq-brand {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--sq-purple) !important;
+  letter-spacing: -0.5px;
+  text-decoration: none;
+}
+
+.sq-brand i { color: var(--sq-purple); }
+
+.sq-navbar .nav-link {
+  color: var(--sq-muted);
+  font-weight: 500;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--sq-radius-sm);
+  transition: color 0.2s, background 0.2s;
+}
+
+.sq-navbar .nav-link:hover,
+.sq-navbar .nav-link.active {
+  color: var(--sq-purple);
+  background: var(--sq-purple-bg);
+}
+
+.sq-user-pill {
+  background: var(--sq-purple-bg);
+  border: 1px solid var(--sq-purple-border);
+  border-radius: 2rem;
+  padding: 0.35rem 0.9rem 0.35rem 0.5rem;
+  font-size: 0.9rem;
+}
+
+.sq-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--sq-purple);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+}
+
+/* ------------------------------------------------------------------
+   Hero Section
+   ------------------------------------------------------------------ */
+.sq-hero {
+  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 40%, #e0e7ff 100%);
+  padding: 5rem 1rem 4rem;
+  text-align: center;
+  border-bottom: 1px solid var(--sq-purple-border);
+}
+
+.sq-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(124, 58, 237, 0.12);
+  color: var(--sq-purple);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  border-radius: 2rem;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.sq-hero-heading {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--sq-text);
+  margin: 1rem 0;
+}
+
+.sq-gradient-text {
+  background: linear-gradient(135deg, var(--sq-purple), var(--sq-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sq-hero-sub {
+  font-size: 1.1rem;
+  color: var(--sq-muted);
+  margin-bottom: 2rem;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ------------------------------------------------------------------
+   Stats bar
+   ------------------------------------------------------------------ */
+.sq-stats-bar {
+  background: var(--sq-surface);
+  border-bottom: 1px solid var(--sq-border);
+}
+
+.sq-stat-item {
+  padding: 0.5rem;
+}
+
+.sq-stat-number {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--sq-purple);
+  line-height: 1.1;
+}
+
+.sq-stat-label {
+  font-size: 0.8rem;
+  color: var(--sq-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+/* ------------------------------------------------------------------
+   Sections
+   ------------------------------------------------------------------ */
+.sq-section-header { border-left: 4px solid var(--sq-purple); padding-left: 0.75rem; }
+.sq-section-title  { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.25rem; }
+.sq-section-sub    { color: var(--sq-muted); margin: 0; font-size: 0.95rem; }
+
+/* ------------------------------------------------------------------
+   Cards (generic)
+   ------------------------------------------------------------------ */
+.sq-card {
+  background: var(--sq-surface);
+  border: 1px solid var(--sq-border);
+  border-radius: var(--sq-radius);
+  box-shadow: var(--sq-shadow);
+  padding: 1.5rem;
+}
+
+.sq-card-header {
+  background: var(--sq-purple-bg);
+  border-bottom: 1px solid var(--sq-purple-border);
+}
+
+/* ------------------------------------------------------------------
+   Category Cards
+   ------------------------------------------------------------------ */
+.sq-category-card {
+  background: var(--sq-surface);
+  border: 1px solid var(--sq-border);
+  border-radius: var(--sq-radius);
+  padding: 1.5rem 1rem;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  height: 100%;
+}
+
+.sq-category-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sq-shadow-md);
+}
+
+.sq-category-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin: 0 auto 0.75rem;
+}
+
+.sq-category-name  { font-size: 0.95rem; font-weight: 600; margin: 0; color: var(--sq-text); }
+.sq-category-count { font-size: 0.8rem;  color: var(--sq-muted); margin: 0.25rem 0 0; }
+
+/* Category color variants */
+.sq-color-purple .sq-category-icon { background: #f5f3ff; color: var(--sq-purple); }
+.sq-color-blue   .sq-category-icon { background: #eff6ff; color: var(--sq-blue);   }
+.sq-color-teal   .sq-category-icon { background: #f0fdfa; color: var(--sq-teal);   }
+.sq-color-orange .sq-category-icon { background: #fff7ed; color: var(--sq-orange); }
+.sq-color-red    .sq-category-icon { background: #fef2f2; color: var(--sq-red);    }
+.sq-color-green  .sq-category-icon { background: #f0fdf4; color: var(--sq-green);  }
+.sq-color-pink   .sq-category-icon { background: #fdf2f8; color: var(--sq-pink);   }
+.sq-color-yellow .sq-category-icon { background: #fefce8; color: var(--sq-yellow); }
+
+.sq-color-purple:hover { border-color: var(--sq-purple-light); }
+.sq-color-blue:hover   { border-color: var(--sq-blue); }
+.sq-color-teal:hover   { border-color: var(--sq-teal); }
+.sq-color-orange:hover { border-color: var(--sq-orange); }
+.sq-color-red:hover    { border-color: var(--sq-red);   }
+.sq-color-green:hover  { border-color: var(--sq-green); }
+.sq-color-pink:hover   { border-color: var(--sq-pink);  }
+.sq-color-yellow:hover { border-color: var(--sq-yellow);}
+
+/* ------------------------------------------------------------------
+   Recent Scores (Home page)
+   ------------------------------------------------------------------ */
+.sq-score-row    { padding: 1rem 1.5rem; }
+.sq-score-divider{ border-bottom: 1px solid var(--sq-border); }
+
+.sq-score-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--sq-purple-bg);
+  color: var(--sq-purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.sq-score-fraction { font-size: 1.1rem; color: var(--sq-purple); }
+
+/* ------------------------------------------------------------------
+   Progress bars
+   ------------------------------------------------------------------ */
+.sq-progress {
+  height: 8px;
+  border-radius: 1rem;
+  background: var(--sq-purple-bg);
+}
+
+.sq-progress-bar         { background: var(--sq-purple); border-radius: 1rem; }
+.sq-progress-bar-success { background: var(--sq-green);  border-radius: 1rem; }
+.sq-progress-bar-warning { background: var(--sq-orange); border-radius: 1rem; }
+.sq-progress-bar-danger  { background: var(--sq-red);    border-radius: 1rem; }
+
+/* ------------------------------------------------------------------
+   Buttons
+   ------------------------------------------------------------------ */
+.sq-btn-primary {
+  background: var(--sq-purple);
+  color: #fff;
+  border: none;
+  border-radius: 0.6rem;
+  font-weight: 600;
+  padding: 0.55rem 1.3rem;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+
+.sq-btn-primary:hover {
+  background: var(--sq-purple-dark);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+  transform: translateY(-1px);
+}
+
+.sq-btn-primary:disabled {
+  background: var(--sq-purple-light);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.sq-btn-outline {
+  background: transparent;
+  color: var(--sq-purple);
+  border: 2px solid var(--sq-purple);
+  border-radius: 0.6rem;
+  font-weight: 600;
+  padding: 0.5rem 1.2rem;
+  transition: background 0.2s, color 0.2s, transform 0.1s;
+}
+
+.sq-btn-outline:hover {
+  background: var(--sq-purple);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* ------------------------------------------------------------------
+   Quiz Setup Panel
+   ------------------------------------------------------------------ */
+.sq-select {
+  border-radius: var(--sq-radius-sm);
+  border-color: var(--sq-border);
+  padding: 0.6rem 0.9rem;
+  font-size: 0.95rem;
+}
+.sq-select:focus {
+  border-color: var(--sq-purple);
+  box-shadow: 0 0 0 0.2rem rgba(124, 58, 237, 0.15);
+}
+
+.sq-info-list { display: flex; flex-direction: column; gap: 0.6rem; }
+
+.sq-info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.95rem;
+  color: var(--sq-text);
+}
+
+.sq-info-icon {
+  color: var(--sq-purple);
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------------
+   Quiz Panel
+   ------------------------------------------------------------------ */
+.sq-badge-category {
+  display: inline-block;
+  background: var(--sq-purple-bg);
+  color: var(--sq-purple);
+  border: 1px solid var(--sq-purple-border);
+  border-radius: 2rem;
+  padding: 0.3rem 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.sq-timer-badge {
+  background: var(--sq-surface);
+  border: 2px solid var(--sq-purple);
+  color: var(--sq-purple);
+  border-radius: 2rem;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition: border-color 0.3s, color 0.3s;
+}
+
+.sq-timer-badge.sq-timer-warning {
+  border-color: var(--sq-orange);
+  color: var(--sq-orange);
+}
+
+.sq-timer-badge.sq-timer-danger {
+  border-color: var(--sq-red);
+  color: var(--sq-red);
+  animation: pulse 0.8s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
+
+.sq-question-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--sq-text);
+}
+
+/* Option buttons */
+.sq-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--sq-border);
+  border-radius: 0.65rem;
+  cursor: pointer;
+  background: var(--sq-surface);
+  transition: border-color 0.15s, background 0.15s;
+  text-align: left;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--sq-text);
+  width: 100%;
+}
+
+.sq-option:hover:not(:disabled) {
+  border-color: var(--sq-purple-light);
+  background: var(--sq-purple-bg);
+}
+
+.sq-option.selected {
+  border-color: var(--sq-purple);
+  background: var(--sq-purple-bg);
+  color: var(--sq-purple);
+}
+
+.sq-option.correct {
+  border-color: var(--sq-green);
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.sq-option.incorrect {
+  border-color: var(--sq-red);
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.sq-option:disabled { cursor: not-allowed; }
+
+.sq-option-letter {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--sq-border);
+  color: var(--sq-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.sq-option.selected  .sq-option-letter { background: var(--sq-purple); color: #fff; }
+.sq-option.correct   .sq-option-letter { background: var(--sq-green);  color: #fff; }
+.sq-option.incorrect .sq-option-letter { background: var(--sq-red);    color: #fff; }
+
+/* ------------------------------------------------------------------
+   Result Panel
+   ------------------------------------------------------------------ */
+.sq-score-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--sq-purple), var(--sq-blue));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+}
+
+.sq-result-stat {
+  background: var(--sq-purple-bg);
+  border-radius: var(--sq-radius-sm);
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.sq-result-stat-val { font-size: 1.4rem; font-weight: 700; color: var(--sq-purple); }
+.sq-result-stat-lbl { font-size: 0.75rem; color: var(--sq-muted); font-weight: 500; }
+
+/* ------------------------------------------------------------------
+   Results Page – Summary Cards
+   ------------------------------------------------------------------ */
+.sq-summary-card {
+  border-radius: var(--sq-radius);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  border: 1px solid transparent;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.sq-summary-card:hover { transform: translateY(-3px); box-shadow: var(--sq-shadow-md); }
+
+.sq-summary-purple { background: var(--sq-purple-bg); border-color: var(--sq-purple-border); }
+.sq-summary-blue   { background: #eff6ff; border-color: #bfdbfe; }
+.sq-summary-green  { background: #f0fdf4; border-color: #bbf7d0; }
+
+.sq-summary-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.sq-summary-purple .sq-summary-icon { background: var(--sq-purple); color: #fff; }
+.sq-summary-blue   .sq-summary-icon { background: var(--sq-blue);   color: #fff; }
+.sq-summary-green  .sq-summary-icon { background: var(--sq-green);  color: #fff; }
+
+.sq-summary-number { font-size: 2rem; font-weight: 800; line-height: 1.1; }
+.sq-summary-label  { font-size: 0.85rem; color: var(--sq-muted); font-weight: 500; }
+
+.sq-summary-purple .sq-summary-number { color: var(--sq-purple); }
+.sq-summary-blue   .sq-summary-number { color: var(--sq-blue);   }
+.sq-summary-green  .sq-summary-number { color: var(--sq-green);  }
+
+/* ------------------------------------------------------------------
+   Results Table
+   ------------------------------------------------------------------ */
+.sq-table {
+  font-size: 0.9rem;
+}
+
+.sq-table thead th {
+  background: var(--sq-purple-bg);
+  color: var(--sq-muted);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-bottom: 1px solid var(--sq-purple-border);
+  padding: 0.75rem 1rem;
+}
+
+.sq-table tbody td {
+  padding: 0.85rem 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--sq-border);
+}
+
+.sq-table tbody tr:last-child td { border-bottom: none; }
+.sq-table tbody tr:hover { background: var(--sq-purple-bg); }
+
+.sq-category-pill {
+  display: inline-block;
+  background: var(--sq-purple-bg);
+  color: var(--sq-purple);
+  border-radius: 1rem;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.sq-text-success { color: var(--sq-green);  }
+.sq-text-warning { color: var(--sq-orange); }
+.sq-text-danger  { color: var(--sq-red);    }
+
+/* ------------------------------------------------------------------
+   Footer
+   ------------------------------------------------------------------ */
+.sq-footer {
+  background: var(--sq-surface);
+  border-top: 1px solid var(--sq-border);
+}
+
+/* ------------------------------------------------------------------
+   Utility
+   ------------------------------------------------------------------ */
+.d-none { display: none !important; }
